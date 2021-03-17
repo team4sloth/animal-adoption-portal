@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7E236191
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimalAdoption.Web.Portal.UnitTests", "AnimalAdoption.Web.Portal.UnitTests\AnimalAdoption.Web.Portal.UnitTests.csproj", "{6D2DD17F-6E26-4BA5-95B2-45C9A21E1F3D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnimalAdoption.Web.Portal.FunctionalTests", "AnimalAdoption.Web.Portal.FunctionalTests\AnimalAdoption.Web.Portal.FunctionalTests.csproj", "{44A67EC9-3AE6-4AF7-8EB0-2EC7090540E9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
