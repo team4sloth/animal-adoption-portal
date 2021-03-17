@@ -41,3 +41,15 @@ jobs:
     Minimum 1 day. Maximum 90 days unless changed from the repository settings page.
 
         retention-days: # optional
+
+
+    - name: List out directory contents
+      run: |
+          echo "Listing the contents of the GitHub workspace directory"
+          ls ${{ github.workspace }}
+          
+          echo "PATH Listing the contents of the GitHub workspace directory"
+          ls /home/runner/work/animal-adoption-portal/animal-adoption-portal/
+
+          echo "Recursively listing all contents of the current directory"
+          ls -R
