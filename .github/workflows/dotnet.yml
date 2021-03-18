@@ -49,3 +49,19 @@ jobs:
 
     - name: Push package to GitHub registry
       run: dotnet nuget push ${{ env.LogicProjectPath }}/**/*.nupkg --skip-duplicate
+      
+  deploy:
+    name: Deploy to Test Env
+    needs: build
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.8
+      with:
+        # Artifact name
+        name: animal-adoption-portal-artifact
+    - name: List the PWD
+      run: ls -r
+
