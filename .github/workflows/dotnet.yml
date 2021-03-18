@@ -77,7 +77,7 @@ jobs:
 
     - uses: azure/login@v1
       with:
-        creds: ${{ secrets.SLOTH_DEV_PROFILE }}
+        creds: ${{ secrets.SLOTH_AZURE_PROFILE }}
 
     - name: Azure App Service Settings
       uses: Azure/appservice-settings@v1
