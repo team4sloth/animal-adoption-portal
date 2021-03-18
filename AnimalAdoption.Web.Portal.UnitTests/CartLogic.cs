@@ -19,7 +19,7 @@ namespace AnimalAdoption.Service.Cart.UnitTests
             var memoryCache = new MemoryCache(new MemoryCacheOptions());
 
             // Act
-            var resultingCart = new CartService(memoryCache, new AnimalService()).SetAnimalQuantity("TEST_CART", animalId, quantityAmount);
+            var resultingCart = new CartService(memoryCache, new AnimalService()).SetAnimalQuantity("TEST_CART", animalId, numberOfAnimalsToAdd);
 
             // Assert
             Assert.Equal("TEST_CART", resultingCart.Id);
@@ -84,7 +84,7 @@ namespace AnimalAdoption.Service.Cart.UnitTests
 
             // Act
             var updatedCart = cartService.SetAnimalQuantity("TEST_CART", animalIdToRemove, numberOfAnimalsToRemove);
-            
+
             // Assert
             Assert.Equal("TEST_CART", updatedCart.Id);
             Assert.Equal(0, updatedCart.CartContents.First(x => x.Id == existingAnimalId).Quantity);
