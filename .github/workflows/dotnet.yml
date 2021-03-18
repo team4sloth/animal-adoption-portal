@@ -8,7 +8,7 @@ on:
 
 # Set these variables at either the step or workflow level
 env:
-  GitHubPackageFeedUrl: https://nuget.pkg.github.com/(your-organisation-name)/index.json
+  GitHubPackageFeedUrl: https://nuget.pkg.github.com/team4sloth/index.json
   LogicProjectPath: ${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic
   
 jobs:
