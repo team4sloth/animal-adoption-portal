@@ -31,14 +31,3 @@ jobs:
         name: animal-adoption-portal-artifact # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
         path: /home/runner/work/animal-adoption-portal/animal-adoption-portal/AnimalAdoption.Web.Portal
-   
-    - name: List out directory contents
-      run: |
-          echo "Listing the contents of the GitHub workspace directory"
-          ls ${{ github.workspace }}
-          
-          echo "PATH Listing the contents of the GitHub workspace directory"
-          ls /home/runner/work/animal-adoption-portal/animal-adoption-portal/
-
-          echo "Recursively listing all contents of the current directory"
-          ls -R
