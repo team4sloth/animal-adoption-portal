@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ master ]
 
+# Set these variables at either the step or workflow level
+env:
+  GitHubPackageFeedUrl: https://nuget.pkg.github.com/(your-organisation-name)/index.json
+  LogicProjectPath: ${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic
+  
 jobs:
   build:
 
@@ -35,11 +40,6 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: /home/runner/work/animal-adoption-portal/animal-adoption-portal/AnimalAdoption.Web.Portal
 
-    # Set these variables at either the step or workflow level
-    env:
-      GitHubPackageFeedUrl: https://github.com/team4sloth/animal-adoption-portal.git
-      LogicProjectPath: ${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic
-
     # Authenticates packages to push to GPR
     - name: Setup .NET Core @ Latest
       uses: actions/setup-dotnet@v1
@@ -53,4 +53,3 @@ jobs:
 
     - name: Push package to GitHub registry
       run: dotnet nuget push ${{ env.LogicProjectPath }}/**/*.nupkg --skip-duplicate
-
