@@ -87,7 +87,8 @@ jobs:
         mask-inputs: false
 
         # Application settings using the JSON syntax set as value of secret variable: APP_SETTINGS
-        app-settings-json: '[{ "name": "GlobalPassword", "value" : ${{ secrets.SLOTH_DEV_GLOBAL_PASSWORD }}  }]'
+        app-settings-json: '[{ "name": "GlobalPassword", "value" : "${{ secrets.SLOTH_DEV_GLOBAL_PASSWORD }}", "slotSetting": false  }]'
+        #app-settings-json: '[{ "name": "SCM_DO_BUILD_DURING_DEPLOYMENT", "value": "1", "slotSetting": false }]'
     - run: |
         az logout       
 
