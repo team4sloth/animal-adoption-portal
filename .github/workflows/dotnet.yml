@@ -109,6 +109,16 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.8
+      with:
+        # Artifact name
+        name: animal-adoption-portal-artifact
+        path:  ${{ github.WORKSPACE }}/slothwebapp
+        
+    - name: List the PWD
+      run: ls -r  ${{ github.WORKSPACE }}/slothwebapp
+        
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.SLOTH_AZURE_PROFILE_PROD }}
@@ -123,7 +133,7 @@ jobs:
         # Provide the name of a resource group, only required for resource Group deployments.
         resourceGroupName: DevOps-2021-03-18-team-04-prod
         # Specify the path or URL to the Azure Resource Manager template.
-        template: ${{ github.WORKSPACE }}/prod-deploy.json
+        template: ./prod-deploy.json
 
     - run: |
         az logout   
