@@ -30,7 +30,7 @@ jobs:
         # Artifact name
         name: animal-adoption-portal-artifact # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: /home/runner/work/animal-adoption-portal/animal-adoption-portal/
+        path: /home/runner/work/animal-adoption-portal/animal-adoption-portal/AnimalAdoption.Web.Portal
    
     - name: List out directory contents
       run: |
