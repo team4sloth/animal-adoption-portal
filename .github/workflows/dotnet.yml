@@ -22,7 +22,10 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal      
+      
+    - name: Publish      
+      run: dotnet publish /home/runner/work/animal-adoption-portal/animal-adoption-portal/AnimalAdoption.Web.Portal --configuration Release --output published --no-build
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
