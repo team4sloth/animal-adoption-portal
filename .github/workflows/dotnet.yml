@@ -108,7 +108,11 @@ jobs:
     
     runs-on: ubuntu-latest
     
-    steps: 
+    steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.SLOTH_AZURE_PROFILE_PROD }}
+
     - name: Deploy Azure Resource Manager (ARM) Template
       uses: Azure/arm-deploy@v1.0.2
       with:
@@ -120,3 +124,6 @@ jobs:
         resourceGroupName: DevOps-2021-03-18-team-04-prod
         # Specify the path or URL to the Azure Resource Manager template.
         template: ${{ github.WORKSPACE }}/prod-deploy.json
+
+    - run: |
+        az logout   
