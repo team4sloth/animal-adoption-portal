@@ -10,6 +10,9 @@ on:
 env:
   GitHubPackageFeedUrl: https://nuget.pkg.github.com/team4sloth/index.json
   LogicProjectPath: ${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic
+  NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub automatically creates a GITHUB_TOKEN secret to use in your workflow
+  AZURE_WEBAPP_NAME: sloth-test # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
   
 jobs:
   build:
@@ -22,6 +25,8 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.x
+        source-url: ${{ env.GitHubPackageFeedUrl }}
+       
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -30,7 +35,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal --configuration Release   
       
     - name: Publish      
-      run: dotnet publish ${{github.workspace}}/AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --configuration Release --output published --no-build
+      run: dotnet publish ${{github.workspace}}/AnimalAdoption.Web.Portal/AnimalAdoption.Web.Portal.csproj --configuration Release --output ./slothwebapp/ --no-build
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
@@ -38,18 +43,36 @@ jobs:
         # Artifact name
         name: animal-adoption-portal-artifact # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: /home/runner/work/animal-adoption-portal/animal-adoption-portal/AnimalAdoption.Web.Portal
+        path: ./slothwebapp/
 
-    # Authenticates packages to push to GPR
-    - name: Setup .NET Core @ Latest
-      uses: actions/setup-dotnet@v1
-      with:
-        source-url: ${{ env.GitHubPackageFeedUrl }}
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub automatically creates a GITHUB_TOKEN secret to use in your workflow
 
     - name: Package up project
       run: dotnet pack --configuration Release ${{ env.LogicProjectPath }}
 
     - name: Push package to GitHub registry
       run: dotnet nuget push ${{ env.LogicProjectPath }}/**/*.nupkg --skip-duplicate
+      
+  deploy:
+    name: Deploy to Test Env
+    needs: build
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.8
+      with:
+        # Artifact name
+        name: animal-adoption-portal-artifact
+        path:  ${{ github.WORKSPACE }}/slothwebapp
+    - name: List the PWD
+      run: ls -r  ${{ github.WORKSPACE }}/slothwebapp
+      
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+        publish-profile: ${{ secrets.SLOTH_DEV_PROFILE }} # Define secret variable in repository settings as per action documentation
+        package: ${{ github.WORKSPACE }}/slothwebapp
+
+
