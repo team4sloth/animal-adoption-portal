@@ -34,3 +34,23 @@ jobs:
         name: animal-adoption-portal-artifact # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
         path: /home/runner/work/animal-adoption-portal/animal-adoption-portal/AnimalAdoption.Web.Portal
+
+    # Set these variables at either the step or workflow level
+    env:
+      GitHubPackageFeedUrl: https://github.com/team4sloth/animal-adoption-portal.git
+      LogicProjectPath: ${{ github.WORKSPACE }}/AnimalAdoption.Common.Logic
+
+    # Authenticates packages to push to GPR
+    - name: Setup .NET Core @ Latest
+      uses: actions/setup-dotnet@v1
+      with:
+        source-url: ${{ env.GitHubPackageFeedUrl }}
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub automatically creates a GITHUB_TOKEN secret to use in your workflow
+
+    - name: Package up project
+      run: dotnet pack --configuration Release ${{ env.LogicProjectPath }}
+
+    - name: Push package to GitHub registry
+      run: dotnet nuget push ${{ env.LogicProjectPath }}/**/*.nupkg --skip-duplicate
+
