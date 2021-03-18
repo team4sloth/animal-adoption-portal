@@ -58,7 +58,7 @@
                         }
                     },
                     {
-                        "objectId": "<your-aad-user-object-id-here>",
+                        "objectId": "0c28c161-37c0-4a5d-8065-1b567f4bc5e9",
                         "tenantId": "[parameters('tenantGuid')]",
                         "permissions": {
                             "keys": [
