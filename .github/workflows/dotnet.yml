@@ -102,4 +102,21 @@ jobs:
     - run: |
         az logout       
 
-
+  deploy_prod:
+    name: Deploy to Prod Env
+    needs: deploy
+    
+    runs-on: ubuntu-latest
+    
+    steps: 
+    - name: Deploy Azure Resource Manager (ARM) Template
+      uses: Azure/arm-deploy@v1.0.2
+      with:
+        # Provide the scope of the deployment. Valid values are: 'resourcegroup', 'managementgroup', 'subscription'
+        scope: resourcegroup
+        # Override the Subscription Id set by Azure Login.
+        subscriptionId: cfe96ac1-4cd0-40ad-9751-b18802bf8822 
+        # Provide the name of a resource group, only required for resource Group deployments.
+        resourceGroupName: DevOps-2021-03-18-team-04-prod
+        # Specify the path or URL to the Azure Resource Manager template.
+        template: ${{ github.WORKSPACE }}/prod-deploy.json
