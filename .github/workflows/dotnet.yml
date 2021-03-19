@@ -192,7 +192,16 @@ jobs:
 
         # Application settings using the JSON syntax set as value of secret variable: APP_SETTINGS
         app-settings-json: '[{ "name": "GlobalPassword", "value" : "${{ steps.azure-secret-prod-key.outputs.GlobalPassword }}", "slotSetting": false  }]'
-
+    - name: Azure WebApp
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: "stage-webapp"
+        # Enter an existing Slot other than the Production slot
+        slot-name: sloth-prod-webapp-staging
+        # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
+        package: ${{ github.WORKSPACE }}/slothwebapp
+        # Enter the start up command. For ex. dotnet run or dotnet run
+        #startup-command: # optional
     - run: |
         az logout       
         
