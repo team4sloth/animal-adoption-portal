@@ -17,6 +17,8 @@ env:
   PROD_APP_SERVICE_PLAN_NAME : sloth-prod
   PROD_KEY_VAULT_NAME : sloth-prod-key
   PROD_WEB_APP_NAME : sloth-prod-webapp
+  RG_SP_MA_OBJECT_ID : 871ebee5-73bf-4118-929e-e6f89460f72c
+
 
 jobs:
   build:
@@ -161,6 +163,7 @@ jobs:
             appServicePlanName=${{ env.PROD_APP_SERVICE_PLAN_NAME }}
             keyVaultName=${{ env.PROD_KEY_VAULT_NAME }}
             webAppName=${{ env.PROD_WEB_APP_NAME }}
+            resourceGroupServicePrincipalManagedApplicationObjectId=${{ env.RG_SP_MA_OBJECT_ID }}
 
     - run: |
         az logout   
