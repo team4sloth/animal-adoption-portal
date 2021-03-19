@@ -17,6 +17,7 @@ env:
   PROD_APP_SERVICE_PLAN_NAME : sloth-prod
   PROD_KEY_VAULT_NAME : sloth-prod-key
   PROD_WEB_APP_NAME : sloth-prod-webapp
+  STAGING_WEB_APP_NAME : sloth-staging-webapp
 
 
 jobs:
@@ -195,9 +196,9 @@ jobs:
     - name: Azure WebApp
       uses: Azure/webapps-deploy@v2
       with:
-        app-name: "stage-webapp"
+        app-name: ${{ env.STAGING_WEB_APP_NAME }}
         # Enter an existing Slot other than the Production slot
-        slot-name: sloth-prod-webapp-staging
+        slot-name: staging
         # Applies to Web App only: Path to package or folder. *.zip, *.war, *.jar or a folder to deploy
         package: ${{ github.WORKSPACE }}/slothwebapp
         # Enter the start up command. For ex. dotnet run or dotnet run
