@@ -144,7 +144,6 @@ jobs:
         name: prod-deploy-json-artifact
         path:  ${{ github.WORKSPACE }}
     
-
     - name: Deploy Azure Resource Manager (ARM) Template
       uses: Azure/arm-deploy@v1.0.2
       with:
@@ -164,5 +163,14 @@ jobs:
             webAppName=${{ env.PROD_WEB_APP_NAME }}
             resourceGroupServicePrincipalManagedApplicationObjectId=${{ secrets.RG_SP_MA_OBJECT_ID }}
 
+    - name: Azure key vault - Get Secrets
+      uses: Azure/get-keyvault-secrets@v1.1
+      with:
+          # Name of the azure key vault
+          keyvault: ${{ env.PROD_KEY_VAULT_NAME }}
+          # Name of the secret to be fetched
+          secrets: 'GlobalPassword'
+      id: azure-secret-key
+
     - run: |
-        az logout   
+            az logout
