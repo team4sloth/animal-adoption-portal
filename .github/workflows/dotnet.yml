@@ -18,9 +18,6 @@ env:
   PROD_KEY_VAULT_NAME : sloth-prod-key
   PROD_WEB_APP_NAME : sloth-prod-webapp
 
-secrets:
-  AG_TENANT_GUID : ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039
-  
 jobs:
   build:
 
