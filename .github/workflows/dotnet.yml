@@ -156,7 +156,7 @@ jobs:
         resourceGroupName: DevOps-2021-03-18-team-04-prod
         # Specify the path or URL to the Azure Resource Manager template.
         template: ${{ github.WORKSPACE }}/prod-deploy.json
-        parameters: |
+        parameters:
             resourceLocation=${{ env.DEPLOY_LOCATION }}
             tenantGuid=${{ secrets.AG_TENANT_GUID }}
             appServicePlanName=${{ env.PROD_APP_SERVICE_PLAN_NAME }}
