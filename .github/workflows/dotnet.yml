@@ -170,7 +170,29 @@ jobs:
           keyvault: ${{ env.PROD_KEY_VAULT_NAME }}
           # Name of the secret to be fetched
           secrets: 'GlobalPassword'
-      id: azure-secret-key
+      id: azure-secret-prod-key
+
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.PROD_WEB_APP_NAME }} # Replace with your app name
+        publish-profile: ${{ secrets.SLOTH_PROD_PROFILE }} # Define secret variable in repository settings as per action documentation
+        package: ${{ github.WORKSPACE }}/slothwebapp
+
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.SLOTH_AZURE_PROFILE_PROD }}
+
+    - name: Azure App Service Settings
+      uses: Azure/appservice-settings@v1
+      with:
+        # Name of the Azure Web App
+        app-name: ${{ env.PROD_WEB_APP_NAME }} 
+        mask-inputs: false
+
+        # Application settings using the JSON syntax set as value of secret variable: APP_SETTINGS
+        app-settings-json: '[{ "name": "GlobalPassword", "value" : "${{ steps.azure-secret-prod-key.outputs.GlobalPassword }}", "slotSetting": false  }]'
 
     - run: |
-            az logout
+        az logout       
+        
