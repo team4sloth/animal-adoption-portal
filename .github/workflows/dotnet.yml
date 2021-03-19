@@ -46,6 +46,17 @@ jobs:
         path: ./slothwebapp/
 
 
+    - name: Upload prod-deploy.json as Artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        # Artifact name
+        name: prod-deploy-json-artifact # optional, default is artifact
+        # A file, directory or wildcard pattern that describes what to upload
+        path: ./prod-deploy.json
+
+    - name: List the PWD
+      run: ls -r  ${{ github.WORKSPACE }}
+
     - name: Package up project
       run: dotnet pack --configuration Release ${{ env.LogicProjectPath }}
 
@@ -112,6 +123,21 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.SLOTH_AZURE_PROFILE_PROD }}
+    
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.8
+      with:
+        # Artifact name
+        name: animal-adoption-portal-artifact
+        path:  ${{ github.WORKSPACE }}/slothwebapp
+
+    - name: Download prod-deploy.json Artifact
+      uses: actions/download-artifact@v2.0.8
+      with:
+        # Artifact name
+        name: prod-deploy-json-artifact
+        path:  ${{ github.WORKSPACE }}
+    
 
     - name: Deploy Azure Resource Manager (ARM) Template
       uses: Azure/arm-deploy@v1.0.2
