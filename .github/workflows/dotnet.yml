@@ -109,6 +109,16 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    
+    - name: Download a prod-deploy.json
+      uses: actions/download-artifact@v2.0.8
+      with:
+        # Artifact name
+        name: animal-adoption-portal-artifact
+        path:  ${{ github.WORKSPACE }}/prod-deploy.json
+    - name: List the PWD
+      run: ls -r  ${{ github.WORKSPACE }}
+      
     - name: Download a Build Artifact
       uses: actions/download-artifact@v2.0.8
       with:
