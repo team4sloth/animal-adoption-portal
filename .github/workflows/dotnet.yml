@@ -13,6 +13,13 @@ env:
   NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub automatically creates a GITHUB_TOKEN secret to use in your workflow
   AZURE_WEBAPP_NAME: sloth-test # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  DEPLOY_LOCATION : southeastasia
+  PROD_APP_SERVICE_PLAN_NAME : sloth-prod
+  PROD_KEY_VAULT_NAME : sloth-prod-key
+  PROD_WEB_APP_NAME : sloth-prod-webapp
+
+secrets:
+  AG_TENANT_GUID : ab5eb3d0-6067-40ee-b4c0-a2ce05dbf039
   
 jobs:
   build:
@@ -151,6 +158,12 @@ jobs:
         resourceGroupName: DevOps-2021-03-18-team-04-prod
         # Specify the path or URL to the Azure Resource Manager template.
         template: ${{ github.WORKSPACE }}/prod-deploy.json
+        parameters: |
+            resourceLocation=${{ env.DEPLOY_LOCATION }}
+            tenantGuid=${{ secrets.AG_TENANT_GUID }}
+            appServicePlanName=${{ env.PROD_APP_SERVICE_PLAN_NAME }}
+            keyVaultName=${{ env.PROD_KEY_VAULT_NAME }}
+            webAppName=${{ env.PROD_WEB_APP_NAME }}
 
     - run: |
         az logout   
